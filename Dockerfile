@@ -1,14 +1,12 @@
 FROM golang AS builder
 
 RUN apt-get update; \
-    apt-get install -y build-essential git; \
-#    rm -rf /var/lib/apt/lists/*
+    apt-get install -y build-essential git
 
 RUN git clone https://github.com/sei-protocol/sei-chain.git; \
     cd sei-chain; \
     git checkout 1.2.0beta; \
-    make install; \
-#    cd .. && rm -rf sei-chain
+    make install
 
 FROM ubuntu:20.04
 
