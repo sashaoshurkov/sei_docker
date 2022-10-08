@@ -1,1 +1,1 @@
-# sei_docker
+# sei docker image
