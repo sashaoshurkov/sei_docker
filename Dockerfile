@@ -1,8 +1,4 @@
-#FROM golang AS builder
-
-FROM golang
-
-WORKDIR /root
+FROM golang AS builder
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -18,11 +14,12 @@ RUN git clone https://github.com/sei-protocol/sei-chain.git; \
     make install; \
     cd .. && rm -rf sei-chain
 
-#FROM ubuntu:20.04
+FROM ubuntu:20.04
 
-#COPY --from=builder /root/go/bin/sei /usr/local
+WORKDIR /root
+
+COPY --from=builder /go/bin/seid /usr/local
 
 EXPOSE 26656 26657 6060 26658 26660 9090 9091
 
-#ENTRYPOINT ["/bin/sh", "-c", "sei"]
-CMD ["/bin/sh", "-c", "sei"]
+CMD ["/bin/sh", "-c", "seid"]
