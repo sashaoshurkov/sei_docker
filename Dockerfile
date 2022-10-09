@@ -16,4 +16,4 @@ COPY --from=builder /go/bin/seid /usr/bin
 
 EXPOSE 26656 26657 6060 26658 26660 9090 9091
 
-CMD ["/bin/sh", "-c", "seid"]
+CMD ["/usr/bin/seid", "start"]
