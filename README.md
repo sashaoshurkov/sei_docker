@@ -1,4 +1,48 @@
-# SEI Blockchain Docker
+# Install utils
+```bash
+apt update && apt install -y curl jq wget
+```
 
-# Start SEI Blockchain
+# Install Docker
+```bash
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+```
+
+# Initialize the validator with a moniker name (Example moniker_name: solid-sei-rock)
+```bash
+docker run --rm --name sei_init --network host -v $HOME/.sei:/root/.sei sashaoshurkov/sei:latest seid init [moniker_name] --chain-id atlantic-1
+```
+
+# Add a new wallet address, store seeds and buy SEI to it (Example wallet_name: solid-sei-rock)
+```bash
+docker run --rm -it --name sei_init --network host -v $HOME/.sei:/root/.sei sashaoshurkov/sei:latest seid keys add [wallet_name]
+```
+
+# Download genesis and adrrbook
+```bash
+wget -O $HOME/.sei/config/genesis.json "https://raw.githubusercontent.com/sei-protocol/testnet/master/sei-incentivized-testnet/genesis.json"; \
+wget -O $HOME/.sei/config/addrbook.json "https://raw.githubusercontent.com/sei-protocol/testnet/master/sei-incentivized-testnet/addrbook.json"
+```
+
+# Set up node configuration
+```bash
+sed -i "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025usei\"/;" $HOME/.sei/config/app.toml; \
+external_address=$(wget -qO- eth0.me); \
+sed -i "s/^external_address *=.*/external_address = \"$external_address:26656\"/" $HOME/.sei/config/config.toml; \
+persistent_peers="e3b5da4caea7370cd85d7738eedaec8f56c5be28@144.76.224.246:36656,a37d65086e78865929ccb7388146fb93664223f7@18.144.13.149:26656,8ff4bd654d7b892f33af5a30ada7d8239d6f467b@91.223.3.190:51656,c4e8c9b1005fe6459a922f232dd9988f93c71222@65.108.227.133:26656"; \
+sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$persistent_peers\"/" $HOME/.sei/config/config.toml
+```
+
+# Start SEI Validator
+```bash
 docker run -d --name sei_node --restart always --network host -v $HOME/.sei:/root/.sei sashaoshurkov/sei:latest
+```
+
+# After buying SEI, stake it to become a validator
+```bash
+docker exec -it sei_node seid tx staking create-validator --from [wallet_name] --moniker [moniker_name] --pubkey $(mund tendermint show-validator) --chain-id testmun --keyring-backend test --amount 50000000000utmun --commission-max-change-rate 0.01 --commission-max-rate 0.2 --commission-rate 0.1 --min-self-delegation 1 --fees 200000utmun --gas auto --gas=auto --gas-adjustment=1.5 -y
+```
+# Get out of jail
+```bash
+docker exec -it sei_node seid tx slashing unjail --from [wallet_name] --chain-id atlantic-1
+```
