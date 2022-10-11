@@ -38,7 +38,7 @@ sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$persistent_peers\"
 docker run -d --name sei_node --restart always --network host -v $HOME/.sei:/root/.sei sashaoshurkov/sei:latest
 ```
 
-# After buying SEI, stake it to become a validator
+# After buying uSEI, stake it to become a validator
 ```bash
 tendermint=$(docker exec -it sei_node seid tendermint show-validator); \
 docker exec -it sei_node seid tx staking create-validator --from [wallet_name] --moniker [moniker_name] --pubkey $tendermint --chain-id atlantic-1 --amount 900000usei --commission-max-change-rate 0.1 --commission-max-rate 0.2 --commission-rate 0.05 --min-self-delegation 1 --fees 5000usei -y
