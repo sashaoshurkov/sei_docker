@@ -8,7 +8,8 @@ RUN git clone https://github.com/sei-protocol/sei-chain.git; \
     cd sei-chain; \
     git checkout 1.2.2beta; \
     make install; \
-    make clean
+    make clean; \
+    cd .. && rm -rf sei-chain
 
 FROM ubuntu:20.04
 
