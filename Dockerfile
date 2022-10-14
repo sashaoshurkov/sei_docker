@@ -1,7 +1,8 @@
 FROM golang:1.18 AS builder
 
 RUN apt-get update; \
-    apt-get install -y build-essential git
+    apt-get install -y build-essential git; \
+    rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 RUN git clone https://github.com/sei-protocol/sei-chain.git; \
     cd sei-chain; \
