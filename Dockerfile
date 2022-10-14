@@ -22,4 +22,4 @@ RUN echo "export PATH=/go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/
 
 EXPOSE 26656 26657 6060 26658 26660 9090 9091
 
-CMD ["/usr/bin/seid", "start", "--pruning=nothing", "--rpc.laddr=tcp://0.0.0.0:26657"]
+CMD ["seid", "start", "--pruning=nothing", "--rpc.laddr=tcp://0.0.0.0:26657"]
