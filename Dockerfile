@@ -6,7 +6,7 @@ RUN apt-get update; \
 
 RUN git clone https://github.com/sei-protocol/sei-chain.git; \
     cd sei-chain; \
-    git checkout 1.2.2beta; \
+    git checkout 1.1.1beta; \
     make install; \
     make clean; \
     cd .. && rm -rf sei-chain
