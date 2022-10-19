@@ -1,3 +1,6 @@
+# Description
+Sei Network — the first orderbook-specific blockchain. This Dockerfile and image is built as part of the testnet run by the Sei team - Act 2. Our team's validator node participates in the testnet with the "freez_art" moniker. If you have any questions, you can contact us on Discord: freez_art#8294
+
 # Install utils
 ```bash
 apt update && apt install -y curl jq wget
@@ -8,9 +11,9 @@ apt update && apt install -y curl jq wget
 curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 ```
 
-# Set SEI version
+# Set SEI version (see watch the announcement of updates in Discord. Example: 1.2.2beta)
 ```bash
-echo 'export sei_version=1.1.1beta' >> $HOME/.bash_profile; \
+echo 'export sei_version=1.2.2beta' >> $HOME/.bash_profile; \
 source $HOME/.bash_profile
 ```
 
